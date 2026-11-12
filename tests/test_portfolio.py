@@ -28,3 +28,40 @@ def test_segmentation():
     actual=disk()
     assert dice(actual,actual)==1.0
     assert iou(actual,actual)==1.0
+
+from projects.catalog_retrieval import evaluate_query, query_vector
+from pathlib import Path
+
+
+def test_catalog_metrics_use_synthetic_ground_truth():
+    names, vectors = build_catalog(seed=7)
+    ranked = search("red shoes", names, vectors, k=10)
+    result = evaluate_query("red shoes", names, ranked)
+    assert result["relevant_items"] == 5
+    assert 0.0 <= result["recall_at_k"] <= 1.0
+    assert 0.0 <= result["reciprocal_rank"] <= 1.0
+
+
+def test_catalog_rejects_invalid_queries():
+    import pytest
+    names, vectors = build_catalog()
+    with pytest.raises(ValueError):
+        search("unrecognized item", names, vectors)
+    with pytest.raises(ValueError):
+        search("red shoes", names, vectors, k=0)
+
+
+def test_changed_untracked_file_selects_all_tests(tmp_path: Path):
+    (tmp_path / "module.py").write_text("def f(): return 1\n")
+    (tmp_path / "test_module.py").write_text("import module\n")
+    result = impacted_tests(tmp_path, ["renamed_module.py"])
+    assert result["fallback"] is True
+    assert result["selected"] == ["test_module.py"]
+
+
+def test_dynamic_imports_trigger_safe_fallback(tmp_path: Path):
+    (tmp_path / "module.py").write_text("def f(): return 1\n")
+    (tmp_path / "test_module.py").write_text("import importlib\nmodule = importlib.import_module('module')\n")
+    result = impacted_tests(tmp_path, ["module.py"])
+    assert result["fallback"] is True
+    assert "test_module.py" in result["selected"]
