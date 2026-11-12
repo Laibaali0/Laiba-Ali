@@ -2,6 +2,7 @@
 Run: python projects/merchant_policy_rl.py
 """
 import numpy as np
+from projects.offpolicy_eval import estimates
 
 def softmax(x):
     a=np.exp(x-x.max(axis=1,keepdims=True))
@@ -27,10 +28,15 @@ def experiment(n=5000, seed=42):
     target[np.arange(len(q)),q.argmax(axis=1)]+=0.9
     a=logged[cut:]
     importance=target[np.arange(len(a)),a]/behavior[cut:][np.arange(len(a)),a]
-    ips=np.mean(importance*observed[cut:])
-    dr=np.mean(np.sum(target*q,axis=1)+importance*(observed[cut:]-q[np.arange(len(a)),a]))
+    evaluation=estimates(
+        observed[cut:],
+        behavior[cut:][np.arange(len(a)), a],
+        target[np.arange(len(a)), a],
+        q_logged=q[np.arange(len(a)),a],
+        q_target=np.sum(target*q,axis=1),
+    )
     oracle=np.mean(np.sum(target*rewards[cut:],axis=1))
-    return dict(samples=n,seed=seed,ips=float(ips),doubly_robust=float(dr),synthetic_oracle=float(oracle))
+    return dict(samples=n,seed=seed,**evaluation,synthetic_oracle=float(oracle))
 
 if __name__=="__main__":
     import json
