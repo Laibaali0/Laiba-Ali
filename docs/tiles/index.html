@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f2ea" />
+  <meta name="description" content="Four by Four is a tiny number-merging puzzle made by Laiba Ali. Play in your browser, no downloads." />
+  <title>Four by Four — a tiny game by Laiba</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./logic.js" defer></script>
+  <script src="./play.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="wordmark" href="../" aria-label="Back to Laiba's portfolio">laiba<span class="dot">.</span></a>
+      <a href="../" class="back">← back to my site</a>
+    </header>
+
+    <main class="game-layout">
+      <section class="intro" aria-labelledby="game-heading">
+        <p class="eyebrow">something to do for five minutes <span aria-hidden="true">✳</span></p>
+        <h1 id="game-heading">four <em>by</em> four<span class="period">.</span></h1>
+        <p class="lead">A tiny number puzzle. Slide matching tiles together, keep the board clear, and try to reach <strong>2048</strong>.</p>
+        <div class="rule"><span class="rule-number">01</span> Use your arrow keys or swipe to move.</div>
+        <div class="rule"><span class="rule-number">02</span> Matching numbers merge into one.</div>
+        <div class="rule"><span class="rule-number">03</span> If the board fills up, it's game over.</div>
+        <p class="small-note">Inspired by classic sliding number puzzles. Built with plain JavaScript; your high score stays on this device.</p>
+      </section>
+
+      <section class="play-area" aria-label="Four by Four game">
+        <div class="game-header">
+          <div><span class="small-label">now playing</span><h2>make a little room.</h2></div>
+          <div class="scores">
+            <div class="score"><span>score</span><strong id="score">0</strong></div>
+            <div class="score"><span>best</span><strong id="best">0</strong></div>
+          </div>
+        </div>
+        <div id="board" class="board" role="grid" aria-label="Four by Four puzzle board" aria-describedby="status" tabindex="0"></div>
+        <div id="status" class="status" role="status" aria-live="polite">New game. Ready when you are.</div>
+        <div class="actions">
+          <button type="button" id="new-game" class="main-button">new game <span aria-hidden="true">↗</span></button>
+          <button type="button" id="undo" class="secondary-button" disabled>↶ undo</button>
+        </div>
+        <div class="touch-controls" aria-label="On-screen movement controls">
+          <button type="button" data-dir="up" aria-label="Move up">↑</button>
+          <div class="row-controls"><button type="button" data-dir="left" aria-label="Move left">←</button><button type="button" data-dir="down" aria-label="Move down">↓</button><button type="button" data-dir="right" aria-label="Move right">→</button></div>
+        </div>
+        <p class="footer-text">A little break between big problems. <span aria-hidden="true">♡</span></p>
+      </section>
+    </main>
+    <footer class="page-footer"><span>© Laiba Ali</span><a href="https://github.com/Laibaali0/Laiba-Ali/tree/main/docs/tiles">view the code ↗</a></footer>
+  </div>
+</body>
+</html>
