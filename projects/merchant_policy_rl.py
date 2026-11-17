@@ -36,7 +36,7 @@ def experiment(n=5000, seed=42):
         q_target=np.sum(target*q,axis=1),
     )
     oracle=np.mean(np.sum(target*rewards[cut:],axis=1))
-    return dict(samples=n,seed=seed,**evaluation,synthetic_oracle=float(oracle))
+    return dict(seed=seed,**evaluation,synthetic_oracle=float(oracle))
 
 if __name__=="__main__":
     import json
