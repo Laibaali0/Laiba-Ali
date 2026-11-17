@@ -1,6 +1,6 @@
 const {test} = require('node:test');
 const assert = require('node:assert/strict');
-const game = require('../site/tiles/logic.js');
+const game = require('../docs/tiles/logic.js');
 const board = rows => rows.map(r => r.slice());
 test('starts with two tiles in different cells', () => {
   const start = game.newGame(()=>0);
