@@ -1,15 +1,17 @@
-name: Arcade checks
+name: Site and game checks
 on:
   push:
     paths:
       - 'docs/**'
       - 'tests/test_arcade_logic.cjs'
+      - 'tests/test_tiles.cjs'
       - 'scripts/validate_site.py'
       - '.github/workflows/arcade-checks.yml'
   pull_request:
     paths:
       - 'docs/**'
       - 'tests/test_arcade_logic.cjs'
+      - 'tests/test_tiles.cjs'
       - 'scripts/validate_site.py'
 jobs:
   validate:
@@ -21,10 +23,13 @@ jobs:
           node-version: '22'
       - name: Check JavaScript syntax
         run: |
-          node --check docs/site.js
           node --check docs/arcade/logic.js
           node --check docs/arcade/game.js
-      - name: Run arcade mechanic tests
-        run: node --test tests/test_arcade_logic.cjs
-      - name: Verify static site links
+          node --check docs/tiles/logic.js
+          node --check docs/tiles/play.js
+      - name: Run game mechanics tests
+        run: |
+          node --test tests/test_arcade_logic.cjs
+          node --test tests/test_tiles.cjs
+      - name: Verify GitHub Pages local asset links
         run: python3 scripts/validate_site.py
