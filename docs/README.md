@@ -1,30 +1,31 @@
-# Developer Arcade website
+# Laiba's portfolio and little browser games
 
-The `docs/` directory is a GitHub Pages-ready static website for `Laibaali0/Laiba-Ali`.
+This `docs/` folder is the static GitHub Pages site for the repository.
 
-## Publishing
+- **Portfolio:** `https://laibaali0.github.io/Laiba-Ali/`
+- **Four by Four:** `https://laibaali0.github.io/Laiba-Ali/tiles/`
+- **Signal Defender:** `https://laibaali0.github.io/Laiba-Ali/arcade/`
 
-In GitHub: **Settings → Pages → Deploy from a branch → main → /docs → Save**.
+The homepage is a small editorial portfolio with no external dependencies or analytics. The two games use plain JavaScript and have local, browser-only high scores.
 
-After publishing, the URLs will be:
-
-- Portfolio: `https://laibaali0.github.io/Laiba-Ali/`
-- Arcade: `https://laibaali0.github.io/Laiba-Ali/arcade/`
-
-Local preview:
+## Run locally
 
 ```bash
 cd docs
 python3 -m http.server 8000
-# open http://localhost:8000
+# open http://localhost:8000 and visit /tiles/ or /arcade/
 ```
 
-The game itself runs without external libraries, cookies, or analytics. Its high score is saved only in `localStorage` on the player's own device.
+## Tests
 
-Tests:
+From the repository root:
 
 ```bash
+node --test tests/test_tiles.cjs
 node --test tests/test_arcade_logic.cjs
+python3 scripts/validate_site.py
 ```
 
-The `README.md` in the repository root retains the original ML experiments and explains how to run them.
+## GitHub Pages
+
+Go to **Settings → Pages → Build and deployment**, choose **Deploy from a branch**, `main` and `/docs`, then Save. The profile README links to the published game pages. GitHub doesn't run JavaScript inside profile READMEs, so the game preview on the profile is a clickable graphic leading here.
