@@ -1,0 +1,30 @@
+name: Arcade checks
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'tests/test_arcade_logic.cjs'
+      - 'scripts/validate_site.py'
+      - '.github/workflows/arcade-checks.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'tests/test_arcade_logic.cjs'
+      - 'scripts/validate_site.py'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check docs/site.js
+          node --check docs/arcade/logic.js
+          node --check docs/arcade/game.js
+      - name: Run arcade mechanic tests
+        run: node --test tests/test_arcade_logic.cjs
+      - name: Verify static site links
+        run: python3 scripts/validate_site.py
